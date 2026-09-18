@@ -1,0 +1,56 @@
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  height: 100%;
+}
+
+body {
+  @apply bg-base-950 text-base-100 font-body antialiased;
+  background-image:
+    radial-gradient(circle at 12% 8%, rgba(166, 133, 255, 0.06), transparent 40%),
+    radial-gradient(circle at 88% 92%, rgba(77, 157, 255, 0.05), transparent 45%);
+  background-attachment: fixed;
+}
+
+::selection {
+  background: rgba(77, 157, 255, 0.3);
+}
+
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #2a3441; border-radius: 6px; }
+::-webkit-scrollbar-thumb:hover { background: #3d4a5c; }
+
+.scanline-corner {
+  position: relative;
+}
+.scanline-corner::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-top: 2px solid var(--corner-color, transparent);
+  border-left: 2px solid var(--corner-color, transparent);
+  width: 14px;
+  height: 14px;
+}
+
+:focus-visible {
+  outline: 2px solid #4d9dff;
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
