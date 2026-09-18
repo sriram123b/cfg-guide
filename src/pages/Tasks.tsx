@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Plus, Trash2 } from "lucide-react";
+import { Plus, Trash2, OctagonAlert } from "lucide-react";
 import { useStore } from "../store";
 import { getPhase } from "../data/phases";
 import { PhaseFrame } from "../components/PhaseFrame";
@@ -17,6 +17,7 @@ export function Tasks() {
   const addTask = useStore((s) => s.addTask);
   const updateTask = useStore((s) => s.updateTask);
   const removeTask = useStore((s) => s.removeTask);
+  const toggleTaskBlocked = useStore((s) => s.toggleTaskBlocked);
   const team = useStore((s) => s.team);
 
   const [title, setTitle] = useState("");
@@ -48,13 +49,37 @@ export function Tasks() {
                 {tasks
                   .filter((t) => t.status === col.id)
                   .map((t: Task) => (
-                    <div key={t.id} className="rounded-lg border border-base-700 bg-base-850 p-2.5">
+                    <div
+                      key={t.id}
+                      className={`rounded-lg border p-2.5 ${
+                        t.blocked ? "border-signal-danger/40 bg-signal-danger/[0.06]" : "border-base-700 bg-base-850"
+                      }`}
+                    >
                       <div className="flex items-start justify-between gap-2">
                         <div className="text-sm text-base-100">{t.title}</div>
-                        <button onClick={() => removeTask(t.id)} className="text-base-500 hover:text-signal-danger shrink-0">
-                          <Trash2 size={12} />
-                        </button>
+                        <div className="flex items-center gap-1.5 shrink-0">
+                          <button
+                            onClick={() => {
+                              if (!t.blocked) {
+                                const note = window.prompt("What's blocking this? (optional)") || "";
+                                toggleTaskBlocked(t.id, note);
+                              } else {
+                                toggleTaskBlocked(t.id);
+                              }
+                            }}
+                            className={`transition-colors ${t.blocked ? "text-signal-danger" : "text-base-500 hover:text-signal-danger"}`}
+                            aria-label="Toggle blocked"
+                          >
+                            <OctagonAlert size={13} />
+                          </button>
+                          <button onClick={() => removeTask(t.id)} className="text-base-500 hover:text-signal-danger">
+                            <Trash2 size={12} />
+                          </button>
+                        </div>
                       </div>
+                      {t.blocked && t.blockerNote && (
+                        <div className="mt-1 text-[11px] text-signal-danger">Blocked: {t.blockerNote}</div>
+                      )}
                       <div className="mt-1.5 flex flex-wrap items-center gap-1.5 text-[11px] text-base-400">
                         <span>{t.assignee}</span>
                         {t.branch !== "-" && <span className="font-mono text-signal-info">{t.branch}</span>}

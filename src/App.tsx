@@ -19,6 +19,10 @@ import { Demo } from "./pages/Demo";
 import { CheatSheet } from "./pages/CheatSheet";
 import { WhatNow } from "./pages/WhatNow";
 import { Resources } from "./pages/Resources";
+import { DevTestingGuide } from "./pages/DevTestingGuide";
+import { Prep } from "./pages/Prep";
+import { Pulse } from "./pages/Pulse";
+import { Decisions } from "./pages/Decisions";
 
 function App() {
   return (
@@ -26,6 +30,7 @@ function App() {
       <Routes>
         <Route element={<Layout />}>
           <Route path="/" element={<Dashboard />} />
+          <Route path="/prep" element={<Prep />} />
           <Route path="/current-phase" element={<CurrentPhase />} />
           <Route path="/team" element={<Team />} />
           <Route path="/problem" element={<Problem />} />
@@ -37,6 +42,8 @@ function App() {
           <Route path="/pull-requests" element={<PullRequests />} />
           <Route path="/integration" element={<Integration />} />
           <Route path="/testing" element={<Testing />} />
+          <Route path="/pulse" element={<Pulse />} />
+          <Route path="/decisions" element={<Decisions />} />
           <Route path="/emergency" element={<Emergency />} />
           <Route path="/final-hours" element={<FinalHours />} />
           <Route path="/final-checklist" element={<FinalChecklist />} />
@@ -44,6 +51,7 @@ function App() {
           <Route path="/cheatsheet" element={<CheatSheet />} />
           <Route path="/what-now" element={<WhatNow />} />
           <Route path="/resources" element={<Resources />} />
+          <Route path="/dev-testing-guide" element={<DevTestingGuide />} />
         </Route>
       </Routes>
     </BrowserRouter>

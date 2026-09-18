@@ -5,6 +5,8 @@ import { useStore } from "../store";
 import { PHASES, getPhase } from "../data/phases";
 import { ProgressBar } from "../components/ProgressBar";
 import { Pill } from "../components/Pill";
+import { ClockCard } from "../components/ClockCard";
+import { WellbeingNudge } from "../components/WellbeingNudge";
 
 export function Dashboard() {
   const navigate = useNavigate();
@@ -75,6 +77,11 @@ export function Dashboard() {
             Manage team <ChevronRight size={14} />
           </button>
         </div>
+      </div>
+
+      <div className="grid gap-4 sm:grid-cols-2">
+        <ClockCard />
+        <WellbeingNudge />
       </div>
 
       <div className="rounded-2xl border border-signal-info/25 bg-gradient-to-br from-signal-info/[0.06] to-transparent p-6 sm:p-8">

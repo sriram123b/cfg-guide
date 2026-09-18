@@ -8,6 +8,9 @@ import type {
   ApiEndpoint,
   ChecklistState,
   Status,
+  StandupNote,
+  Decision,
+  HackathonClock,
 } from "./types";
 import { PHASES } from "./data/phases";
 
@@ -89,6 +92,9 @@ interface StoreState {
   tasks: Task[];
   apiEndpoints: ApiEndpoint[];
   checklists: ChecklistState;
+  standups: StandupNote[];
+  decisions: Decision[];
+  clock: HackathonClock;
 
   setCurrentPhase: (id: string) => void;
   addMember: (m: Omit<TeamMember, "id">) => void;
@@ -109,6 +115,14 @@ interface StoreState {
   phaseProgress: (phaseId: string, totalItems: number) => number;
   overallProgress: () => number;
   resetAll: () => void;
+
+  addStandup: (author: string, note: string) => void;
+  removeStandup: (id: string) => void;
+  addDecision: (text: string) => void;
+  removeDecision: (id: string) => void;
+  toggleTaskBlocked: (id: string, note?: string) => void;
+  startClock: (durationHours: number) => void;
+  stopClock: () => void;
 }
 
 const initialChecklists: ChecklistState = {};
@@ -123,6 +137,9 @@ export const useStore = create<StoreState>()(
       tasks: seedTasks,
       apiEndpoints: seedApi,
       checklists: initialChecklists,
+      standups: [],
+      decisions: [],
+      clock: { startTime: null, durationHours: 24 },
 
       setCurrentPhase: (id) => set({ currentPhaseId: id }),
 
@@ -196,7 +213,32 @@ export const useStore = create<StoreState>()(
           tasks: seedTasks,
           apiEndpoints: seedApi,
           checklists: {},
+          standups: [],
+          decisions: [],
+          clock: { startTime: null, durationHours: 24 },
         }),
+
+      addStandup: (author, note) =>
+        set((s) => ({
+          standups: [{ id: crypto.randomUUID(), time: Date.now(), author, note }, ...s.standups],
+        })),
+      removeStandup: (id) => set((s) => ({ standups: s.standups.filter((n) => n.id !== id) })),
+
+      addDecision: (text) =>
+        set((s) => ({
+          decisions: [{ id: crypto.randomUUID(), time: Date.now(), text }, ...s.decisions],
+        })),
+      removeDecision: (id) => set((s) => ({ decisions: s.decisions.filter((d) => d.id !== id) })),
+
+      toggleTaskBlocked: (id, note) =>
+        set((s) => ({
+          tasks: s.tasks.map((t) =>
+            t.id === id ? { ...t, blocked: !t.blocked, blockerNote: !t.blocked ? note || "" : "" } : t
+          ),
+        })),
+
+      startClock: (durationHours) => set({ clock: { startTime: Date.now(), durationHours } }),
+      stopClock: () => set({ clock: { startTime: null, durationHours: 24 } }),
     }),
     { name: "cfg-command-center" }
   )

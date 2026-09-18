@@ -14,6 +14,8 @@ export interface Task {
   branch: string;
   status: Status;
   pr: string;
+  blocked?: boolean;
+  blockerNote?: string;
 }
 
 export type MvpTier = "must" | "should" | "could" | "later";
@@ -56,4 +58,22 @@ export interface ChecklistState {
   [phaseId: string]: {
     [itemId: string]: boolean;
   };
+}
+
+export interface StandupNote {
+  id: string;
+  time: number;
+  author: string;
+  note: string;
+}
+
+export interface Decision {
+  id: string;
+  time: number;
+  text: string;
+}
+
+export interface HackathonClock {
+  startTime: number | null;
+  durationHours: number;
 }

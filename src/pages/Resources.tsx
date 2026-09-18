@@ -1,4 +1,5 @@
-import { ExternalLink, Library } from "lucide-react";
+import { Link } from "react-router-dom";
+import { ExternalLink, Library, ClipboardCheck } from "lucide-react";
 
 const LINKS = [
   { label: "Branches", url: "https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-branches" },
@@ -38,6 +39,19 @@ export function Resources() {
             <ExternalLink size={14} className="shrink-0 text-base-500" />
           </a>
         ))}
+      </div>
+
+      <div className="border-t border-base-800 pt-6">
+        <Link
+          to="/dev-testing-guide"
+          className="flex items-center justify-between gap-2 rounded-lg border border-base-700 bg-base-900 px-4 py-3 text-sm text-base-300 hover:border-signal-info transition-colors"
+        >
+          <span className="flex items-center gap-2">
+            <ClipboardCheck size={15} className="text-base-500" />
+            Setting this up for your team? See the testing guide.
+          </span>
+          <ExternalLink size={14} className="shrink-0 text-base-500" />
+        </Link>
       </div>
     </div>
   );

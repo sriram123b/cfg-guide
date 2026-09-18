@@ -19,13 +19,18 @@ import {
   Menu,
   X,
   RotateCcw,
+  ClipboardList,
+  Radio,
+  ScrollText,
 } from "lucide-react";
 import { useState } from "react";
 import { useStore } from "../store";
 import { PHASES } from "../data/phases";
+import { ClockPill } from "./ClockPill";
 
 const NAV = [
   { to: "/", label: "Dashboard", icon: Home },
+  { to: "/prep", label: "Prep Checklist", icon: ClipboardList },
   { to: "/current-phase", label: "Current Phase", icon: Compass },
   { to: "/team", label: "Team", icon: Users },
   { to: "/tasks", label: "Tasks", icon: ListChecks },
@@ -34,6 +39,8 @@ const NAV = [
   { to: "/server", label: "Server", icon: Server },
   { to: "/api-contract", label: "API Contract", icon: Plug },
   { to: "/testing", label: "Testing", icon: FlaskConical },
+  { to: "/pulse", label: "Team Pulse", icon: Radio },
+  { to: "/decisions", label: "Decisions", icon: ScrollText },
   { to: "/emergency", label: "Emergency", icon: AlertTriangle },
   { to: "/final-hours", label: "Final Hours", icon: Timer },
   { to: "/demo", label: "Demo", icon: Mic },
@@ -71,6 +78,8 @@ export function Layout() {
               <div className="text-[11px] text-base-400">Code for Good prep</div>
             </div>
           </div>
+
+          <ClockPill />
 
           <nav className="flex-1 overflow-y-auto px-3 py-4 space-y-0.5">
             {NAV.map(({ to, label, icon: Icon }) => (
